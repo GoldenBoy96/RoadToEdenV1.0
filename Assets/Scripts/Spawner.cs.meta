@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 131b2c86c43f10d4096bee8eab5df51e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RedStone99: {fileID: 6736881491688618342, guid: 51d61a0316eadb44283435d590a6eee8, type: 3}
+  - Redstone2: {fileID: 6736881491688618342, guid: b67fb3a99462b6643adb9a1b03760219, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

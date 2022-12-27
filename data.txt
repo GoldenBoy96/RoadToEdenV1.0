@@ -1,0 +1,1 @@
+{"_speed":0.0,"_isRunning":false,"_score":0,"_highestScore":38011,"_spawnRedstone":false,"_spawnGround":false,"_spawnHorn":false,"_gameStatus":"Pause"}
