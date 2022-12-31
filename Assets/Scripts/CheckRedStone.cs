@@ -7,16 +7,16 @@ public class CheckRedStone : MonoBehaviour
     private GameData _gameData;
     private bool _spawnRedstone;
 
-    
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ReadData();
         if (collision.gameObject.CompareTag("Obstancle"))
         {
-            //Debug.Log("Check contact");
+            Debug.Log("Check contact");
             _gameData._spawnRedstone = true;
-            
+
             SaveData();
 
         }

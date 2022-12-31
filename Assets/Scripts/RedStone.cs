@@ -19,7 +19,6 @@ public class RedStone : MonoBehaviour, IObstacle
     void Start()
     {
         leftEdge = Camera.main.ScreenToWorldPoint(Vector3.zero).x - 50f;
-
         //animator = GetComponent<Animator>();
         //int random = Random.Range(1, 12);
         //animator.Play("Restone" + random.ToString());
@@ -36,12 +35,10 @@ public class RedStone : MonoBehaviour, IObstacle
         if (_speed > 0)
         {
             MoveLeft();
-            _gameData._speed += 0.000005f;
-            //Debug.Log(_gameData._speed);
-            SaveData();
         }
 
-        
+
+
     }
 
     public void BurnPlayer()
@@ -59,9 +56,9 @@ public class RedStone : MonoBehaviour, IObstacle
     }
 
     public void MoveLeft()
-    {        
+    {
         Vector3 tmp = transform.position;
-        
+
         tmp.x -= _speed * Time.deltaTime;
         transform.position = tmp;
 

@@ -7,6 +7,7 @@ using System;
 using static FileHandler.FileHandler;
 using Assets.Scripts;
 using System.IO;
+using Unity.VisualScripting;
 
 public class GameController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour
     private int _highestScore;
     private GameData _gameData;
     private float _speed;
+    private int _cooldown;
 
     private void Awake()
     {
@@ -33,9 +35,8 @@ public class GameController : MonoBehaviour
     {
         _score = 0;
         SetScore(_score);
-        Console.WriteLine("Score: " + _score);
         ReadData();
-
+        _cooldown = 100;
         _highestScore = _gameData._highestScore;
         SetHighestScore(_highestScore);
 
@@ -54,10 +55,25 @@ public class GameController : MonoBehaviour
 
             if (_gameData._speed > 0)
             {
-                _score += (int)(_speed - 5) * 10 + 1;
+                _score += 1;
+                _gameData._score = _score;
+                SetScore(_score);
+
+                if (_cooldown > 0)
+                {
+                    _cooldown--;
+                }
+                else
+                {
+
+                    _gameData._speed += 0.01f;
+                    //Debug.Log(_gameData._speed);
+                    SaveData();
+                    _cooldown = 100;
+                }
             }
 
-            SetScore(_score);
+            
 
             if (_score >= _highestScore)
             {
@@ -65,6 +81,9 @@ public class GameController : MonoBehaviour
             }
 
             _gameData._highestScore = _highestScore;
+
+            
+           
 
             SaveData();
         }

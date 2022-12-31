@@ -12,6 +12,9 @@ TagManager:
   - CheckRedstone
   - Ground
   - Horn
+  - Krill
+  - FlyingStone
+  - Background
   layers:
   - Default
   - TransparentFX

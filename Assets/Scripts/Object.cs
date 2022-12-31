@@ -27,8 +27,6 @@ public class Object : MonoBehaviour
         if (_speed > 0)
         {
             MoveLeft();
-            _gameData._speed += 0.0005f;
-            SaveData();
         }
     }
 

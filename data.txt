@@ -1,1 +1,1 @@
-{"_speed":0.0,"_isRunning":false,"_score":0,"_highestScore":38011,"_spawnRedstone":false,"_spawnGround":false,"_spawnHorn":false,"_gameStatus":"Pause"}
+{"_speed":5.0,"_isRunning":false,"_score":457,"_highestScore":38011,"_spawnRedstone":true,"_spawnGround":false,"_spawnHorn":false,"_gameStatus":"Pause","_energy":500.3333435058594}
