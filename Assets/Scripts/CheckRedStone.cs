@@ -14,7 +14,7 @@ public class CheckRedStone : MonoBehaviour
         ReadData();
         if (collision.gameObject.CompareTag("Obstancle"))
         {
-            Debug.Log("Check contact");
+            //Debug.Log("Check contact");
             _gameData._spawnRedstone = true;
 
             SaveData();

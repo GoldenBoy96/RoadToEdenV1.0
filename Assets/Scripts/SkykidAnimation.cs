@@ -29,6 +29,7 @@ public class SkykidAnimation : MonoBehaviour
 
     }
 
+
     public void Move(float Move)
     {
         _anim.SetFloat("Move", Mathf.Abs(Move));
@@ -68,7 +69,7 @@ public class SkykidAnimation : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
             {
                 
-                if (_gameData._energy > 100)
+                if (_gameData._energy > 50)
                 {
                     Jump(1);
                     _AudioFly.Play();

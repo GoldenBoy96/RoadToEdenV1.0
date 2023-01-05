@@ -45,7 +45,7 @@ public class SkykidController : MonoBehaviour
             //Dùng cho việc sạc năng lượng
             //Khi bay năng lượng sẽ sạc rất chậm, ngược lại khi chạm đất sẽ sạc nhanh hơn nhiều lần
             EnergyRecharge();
-            Debug.Log("Energy: " + _gameData._energy);
+            //Debug.Log("Energy: " + _gameData._energy);
 
             //Horizontal ở đây mặc định sẽ là 2 mũi tên trái phải cùng kí tự A D
             //moveHorizontal = new Vector2(Input.GetAxisRaw("Horizontal"), 0f);
@@ -84,9 +84,15 @@ public class SkykidController : MonoBehaviour
             
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
             {
-                if (_gameData._energy > 100)
+                if (_gameData._energy >= 100)
                 {
                     _rb2D.velocity = new Vector2(_rb2D.velocity.x, 7f);
+                    _rb2D.AddForce(transform.up * _jumpForce);
+                    EnergyConsume();
+                } 
+                else if (_gameData._energy >= 50 && _gameData._energy < 100)
+                {
+                    _rb2D.velocity = new Vector2(_rb2D.velocity.x, 3f);
                     _rb2D.AddForce(transform.up * _jumpForce);
                     EnergyConsume();
                 }
@@ -121,7 +127,7 @@ public class SkykidController : MonoBehaviour
     void EnergyConsume()
     {
         ReadData();
-        if (_gameData._energy >= 100)
+        if (_gameData._energy >= 0)
         {
             _gameData._energy -= 100;
         }

@@ -17,5 +17,7 @@ namespace Assets.Scripts
         public bool _spawnHorn = false;
         public string _gameStatus = "Pause";
         public float _energy = 500;
+        public int _bgm = 1;
+        public string _level = "Easy";
     }
 }

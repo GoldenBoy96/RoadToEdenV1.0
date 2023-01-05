@@ -17,7 +17,9 @@ public class Manager : MonoBehaviour
     private int _cooldown = 60;
     GameObject pauseButton;
 
-    public AudioSource _AudioBGMusic;
+    public AudioSource _Nightmare;
+
+    private AudioSource _AudioBGMusic;
     public AudioSource _AudioBGMusic1;
     public AudioSource _AudioBGMusic2;
     public AudioSource _AudioBGMusic3;
@@ -25,17 +27,30 @@ public class Manager : MonoBehaviour
     public AudioSource _AudioBGMusic5;
     public AudioSource _AudioBGMusic6;
     public AudioSource _AudioBGMusic7;
+    public AudioSource _AudioBGMusic8;
+    public AudioSource _AudioBGMusic9;
+    public AudioSource _AudioBGMusic10;
+    public AudioSource _AudioBGMusic11;
+    public AudioSource _AudioBGMusic12;
+    public AudioSource _AudioBGMusic13;
+    public AudioSource _AudioBGMusic14;
+    public AudioSource _AudioBGMusic15;
+    public AudioSource _AudioBGMusic16;
+    public AudioSource _AudioBGMusic17;
+    public AudioSource _AudioBGMusic18;
+    public AudioSource _AudioBGMusic19;
+    public AudioSource _AudioBGMusic20;
+
     List<AudioSource> AudioList;
 
     [System.Obsolete]
     void Start()
     {
-
         Time.timeScale = 0;
         gameStatus = "Pause";
         ReadData();
         _gameData._gameStatus = gameStatus;
-        SaveData();
+        
         keys = new List<KeyCode>();
         keys.Add(KeyCode.W);
         keys.Add(KeyCode.A);
@@ -56,16 +71,46 @@ public class Manager : MonoBehaviour
             _AudioBGMusic5,
             _AudioBGMusic6,
             _AudioBGMusic7,
+            _AudioBGMusic8,
+            _AudioBGMusic9,
+            _AudioBGMusic10,
+            _AudioBGMusic11,
+            _AudioBGMusic12,
+            _AudioBGMusic13,
+            _AudioBGMusic14,
+            _AudioBGMusic15,
+            _AudioBGMusic16,
+            _AudioBGMusic17,
+            _AudioBGMusic18,
+            _AudioBGMusic19,
+            _AudioBGMusic20,
         };
         int random = Random.RandomRange(0, AudioList.Count); 
+        
+        while(_gameData._bgm.Equals(random))
+        {
+            random = Random.RandomRange(0, AudioList.Count);
+        }
+        _gameData._bgm = random;
         _AudioBGMusic = AudioList[random];
 
+        SaveData();
     }
 
     void Update()
     {
         ReadData();
         gameStatus = _gameData._gameStatus;
+
+        if (_gameData._level.Equals("Nightmare"))
+        {
+            if (_gameData._score == 1200)
+            {
+                _AudioBGMusic.Stop();
+                _AudioBGMusic = _Nightmare;
+                _AudioBGMusic.Play();
+            }
+        }
 
         if (!_start)
         {

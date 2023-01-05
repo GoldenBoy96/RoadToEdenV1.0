@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour
         _cooldown = 100;
         _highestScore = _gameData._highestScore;
         SetHighestScore(_highestScore);
-
+        Time.timeScale = 0;
 
     }
 
@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if(Time.timeScale > 0)
+        if (Time.timeScale > 0)
         {
             ReadData();
             _speed = _gameData._speed;
@@ -55,7 +55,13 @@ public class GameController : MonoBehaviour
 
             if (_gameData._speed > 0)
             {
-                _score += 1;
+                _score += _gameData._level switch
+                {
+                    "Easy" => 1,
+                    "Medium" => 2,
+                    "Hard" => 3,
+                    _ => 1,
+                };
                 _gameData._score = _score;
                 SetScore(_score);
 
@@ -65,15 +71,20 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-
-                    _gameData._speed += 0.01f;
+                    _gameData._speed += _gameData._level switch
+                    {
+                        "Easy" => 0.01f,
+                        "Medium" => 0.03f,
+                        "Hard" => 0.05f,
+                        _ => 0.01f,
+                    };
                     //Debug.Log(_gameData._speed);
                     SaveData();
                     _cooldown = 100;
                 }
             }
 
-            
+
 
             if (_score >= _highestScore)
             {
@@ -82,12 +93,12 @@ public class GameController : MonoBehaviour
 
             _gameData._highestScore = _highestScore;
 
-            
-           
+
+
 
             SaveData();
         }
-       
+
 
     }
 
