@@ -19,5 +19,7 @@ namespace Assets.Scripts
         public float _energy = 500;
         public int _bgm = 1;
         public string _level = "Easy";
+        public string _swipeControl = "None";
+        public bool _touchHonk = false;
     }
 }

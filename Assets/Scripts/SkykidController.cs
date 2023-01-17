@@ -16,28 +16,34 @@ public class SkykidController : MonoBehaviour
     private bool _isContactWallLeft;
     private bool _isGround;
     private GameData _gameData;
+    private int _jumpCooldown;
 
 
     // Start is called before the first frame update
     void Start()
     {
         _rb2D = gameObject.GetComponent<Rigidbody2D>();
-        _playerSpeed = 4f;
+        _playerSpeed = 5.5f;
         _speed = 5f;
         _jumpForce = 15f;
         _isContactWallRight = false;
         _isContactWallLeft = false;
-        _isGround=false;
+        _isGround = false;
 
         ReadData();
         _gameData._energy = 500;
         SaveData();
 
+        _jumpCooldown = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_jumpCooldown > 0)
+        {
+            _jumpCooldown--;
+        }
         ReadData();
         _speed = _gameData._speed;
         if (_speed > 0)
@@ -50,77 +56,33 @@ public class SkykidController : MonoBehaviour
             //Horizontal ở đây mặc định sẽ là 2 mũi tên trái phải cùng kí tự A D
             //moveHorizontal = new Vector2(Input.GetAxisRaw("Horizontal"), 0f);
             //moveVertical = Input.GetAxisRaw("Vertical");
-            if (!_isContactWallRight)
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || _gameData._swipeControl.Equals("SwipeRight"))
             {
-                if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-                {
-                    if (_isGround)
-                    {
-                        _rb2D.velocity = new Vector2(_playerSpeed - 1, _rb2D.velocity.y);
-                    }
-                    else
-                    {
-                        _rb2D.velocity = new Vector2((_playerSpeed - 1) / 2, _rb2D.velocity.y);
-                    }
-
-                }
+                MoveRight();
             }
-            if (!_isContactWallLeft)
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || _gameData._swipeControl.Equals("SwipeLeft"))
             {
-                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-                {
-                    if (_isGround)
-                    {
-                        _rb2D.velocity = new Vector2(-_playerSpeed, _rb2D.velocity.y);
-                    }
-                    else
-                    {
-                        _rb2D.velocity = new Vector2(-_playerSpeed / 2, _rb2D.velocity.y);
-                    }
-                }
+                MoveLeft();
             }
-                
-            
-            
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || _gameData._swipeControl.Equals("SwipeUp"))
             {
-                if (_gameData._energy >= 100)
+                if (_jumpCooldown == 0)
                 {
-                    _rb2D.velocity = new Vector2(_rb2D.velocity.x, 7f);
-                    _rb2D.AddForce(transform.up * _jumpForce);
-                    EnergyConsume();
-                } 
-                else if (_gameData._energy >= 50 && _gameData._energy < 100)
-                {
-                    _rb2D.velocity = new Vector2(_rb2D.velocity.x, 3f);
-                    _rb2D.AddForce(transform.up * _jumpForce);
-                    EnergyConsume();
+                    Fly();
+                    _jumpCooldown = 10;
                 }
-                
+               
+
             }
-            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) || _gameData._swipeControl.Equals("SwipeDown"))
             {
-                if (!_isGround )
-                {
-                    if (_rb2D.velocity.y > -5)
-                    {
-                        _rb2D.velocity += new Vector2(0, -3f);
-                    }
-
-                    if (_rb2D.velocity.y > -15 && _rb2D.velocity.y <= -5)
-                    {
-                        _rb2D.velocity += new Vector2(0, -0.5f);
-                    }
-                    
-                    //Debug.Log(_rb2D.velocity);
-                }
-
+                Plunge();
             }
             ReadData();
             _speed = _gameData._speed;
         }
 
-        
+
 
     }
 
@@ -136,29 +98,101 @@ public class SkykidController : MonoBehaviour
 
     void EnergyRecharge()
     {
-        ReadData();
-        if (_gameData._energy < 0)
+        if (Time.timeScale > 0)
         {
-            _gameData._energy = 0;
+            ReadData();
+            if (_gameData._energy < 0)
+            {
+                _gameData._energy = 0;
+            }
+            else if (_gameData._energy > 500)
+            {
+                _gameData._energy = 500;
+            }
+            else
+            {
+                if (_isGround)
+                {
+                    _gameData._energy += _gameData._speed / 2;
+                }
+                else
+                {
+                    _gameData._energy += _gameData._speed / 15;
+                }
+            }
+
+
+            SaveData();
         }
-        else if (_gameData._energy > 500)
-        {
-            _gameData._energy = 500;
-        }
-        else
+
+    }
+
+    public void MoveRight()
+    {
+        if (!_isContactWallRight)
         {
             if (_isGround)
             {
-                _gameData._energy += _gameData._speed /2;
-            } else
+                _rb2D.velocity = new Vector2(_playerSpeed - 2, _rb2D.velocity.y);
+            }
+            else
             {
-                _gameData._energy += _gameData._speed / 15;
+                _rb2D.velocity = new Vector2((_playerSpeed - 2) / 2, _rb2D.velocity.y);
+            }
+
+        }
+    }
+
+    public void MoveLeft()
+    {
+        if (!_isContactWallLeft)
+
+        {
+            if (_isGround)
+            {
+                _rb2D.velocity = new Vector2(-_playerSpeed, _rb2D.velocity.y);
+            }
+            else
+            {
+                _rb2D.velocity = new Vector2(-_playerSpeed / 2, _rb2D.velocity.y);
             }
         }
-        
-        
-        SaveData();
     }
+
+    public void Fly()
+    {
+        if (_gameData._energy >= 100)
+        {
+            _rb2D.velocity = new Vector2(_rb2D.velocity.x, 7f);
+            _rb2D.AddForce(transform.up * _jumpForce);
+            EnergyConsume();
+        }
+        else if (_gameData._energy >= 50 && _gameData._energy < 100)
+        {
+            _rb2D.velocity = new Vector2(_rb2D.velocity.x, 3f);
+            _rb2D.AddForce(transform.up * _jumpForce);
+            EnergyConsume();
+        }
+    }
+
+    public void Plunge()
+    {
+        if (!_isGround)
+        {
+            if (_rb2D.velocity.y > -5)
+            {
+                _rb2D.velocity += new Vector2(0, -3f);
+            }
+
+            if (_rb2D.velocity.y > -15 && _rb2D.velocity.y <= -5)
+            {
+                _rb2D.velocity += new Vector2(0, -0.5f);
+            }
+
+            //Debug.Log(_rb2D.velocity);
+        }
+    }
+
     private void ReadData()
     {
         string jsonRead;
@@ -182,22 +216,7 @@ public class SkykidController : MonoBehaviour
         System.IO.File.WriteAllText("data.txt", json);
     }
 
-    private void FixedUpdate()
-    {
 
-
-        //_rb2D.velocity = new Vector2(moveHorizontal * _speed, 0f);
-
-        //if (moveVertical > 0.1f && !_isContactWall)
-        //{
-        //    _rb2D.AddForce(new Vector2(0f, moveVertical * _jumpForce), ForceMode2D.Force);
-        //}
-        //if (moveVertical < 0.1f && _isContactWall)
-        //{
-        //    _rb2D.AddForce(new Vector2(0f, (float)(moveVertical * _jumpForce * 0.5)), ForceMode2D.Force);
-        //}
-
-    }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -208,7 +227,7 @@ public class SkykidController : MonoBehaviour
             _gameData._speed = _speed;
             _gameData._gameStatus = "End";
             SaveData();
-            
+
         }
         if (collision.gameObject.CompareTag("Platform"))
         {
@@ -249,6 +268,6 @@ public class SkykidController : MonoBehaviour
 
 }
 
-    
 
-    
+
+

@@ -15,10 +15,15 @@ public class SkykidAnimation : MonoBehaviour
 
     private GameData _gameData;
 
+    private int _jumpCooldown;
+    private bool _isPlunge = false;
+
     // Start is called before the first frame update
     void Start()
     {
         _anim = GetComponent<Animator>();
+        _jumpCooldown = 0;
+        _isPlunge = false;
     }
 
     // Update is called once per frame
@@ -51,28 +56,34 @@ public class SkykidAnimation : MonoBehaviour
 
     public void Flyfa(AudioSource _AudioFly)
     {
+        if (_jumpCooldown > 0)
+        {
+            _jumpCooldown--;
+        }
         ReadData();
         if (_isGround)
         {
             Jump(-1);
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || _gameData._swipeControl.Equals("SwipeUp"))
             {
                 
-                if (_gameData._energy > 100)
+                if (_gameData._energy > 100 && _jumpCooldown == 0)
                 {
                     Jump(1);
                     _AudioFly.Play();
+                    _jumpCooldown = 10;
                 }
             }
         } else { 
             Jump(0);
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || _gameData._swipeControl.Equals("SwipeUp"))
             {
                 
-                if (_gameData._energy > 50)
+                if (_gameData._energy > 50 && _jumpCooldown == 0)
                 {
                     Jump(1);
                     _AudioFly.Play();
+                    _jumpCooldown = 20;
                 }
                     
             }
@@ -83,6 +94,16 @@ public class SkykidAnimation : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S))
             {
                 Jump(4);
+            }
+            if (_gameData._swipeControl.Equals("SwipeDown"))
+            {
+                Jump(2);
+                _isPlunge = true;
+            }
+            if (_isPlunge && _gameData._swipeControl.Equals("None"))
+            {
+                Jump(4);
+                _isPlunge = false;
             }
         }
         

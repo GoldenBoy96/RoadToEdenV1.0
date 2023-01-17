@@ -11,11 +11,14 @@ public class Manager : MonoBehaviour
     private List<KeyCode> keys;
     public GameObject _restartButton;
     public GameObject _pauseButton;
+    public GameObject _grayScreen;
     private bool _start = false;
     private bool _restart = false;
     private bool _pause = false;
     private int _cooldown = 60;
     GameObject pauseButton;
+    GameObject restartButton;
+    GameObject grayScreen;
 
     public AudioSource _Nightmare;
 
@@ -50,7 +53,7 @@ public class Manager : MonoBehaviour
         gameStatus = "Pause";
         ReadData();
         _gameData._gameStatus = gameStatus;
-        
+
         keys = new List<KeyCode>();
         keys.Add(KeyCode.W);
         keys.Add(KeyCode.A);
@@ -85,9 +88,9 @@ public class Manager : MonoBehaviour
             _AudioBGMusic19,
             _AudioBGMusic20,
         };
-        int random = Random.RandomRange(0, AudioList.Count); 
-        
-        while(_gameData._bgm.Equals(random))
+        int random = Random.RandomRange(0, AudioList.Count);
+
+        while (_gameData._bgm.Equals(random))
         {
             random = Random.RandomRange(0, AudioList.Count);
         }
@@ -112,11 +115,23 @@ public class Manager : MonoBehaviour
             }
         }
 
+        if (_gameData._gameStatus == "Playing")
+        {
+            Time.timeScale = 1;
+
+            SaveData();
+            _pause = false;
+            Destroy(pauseButton);
+            Destroy(grayScreen);
+            _AudioBGMusic.UnPause();
+        }
+
+        ReadData();
         if (!_start)
         {
             foreach (KeyCode key in keys)
             {
-                if (Input.GetKey(key) || Input.GetMouseButtonDown(0))
+                if (Input.GetKey(key))
                 {
                     Time.timeScale = 1;
                     _gameData._gameStatus = "Playing";
@@ -126,6 +141,16 @@ public class Manager : MonoBehaviour
                     _AudioBGMusic.Play();
                 }
             }
+
+            if (!_gameData._swipeControl.Equals("None"))
+            {
+                Time.timeScale = 1;
+                _gameData._gameStatus = "Playing";
+                SaveData();
+                _pause = false;
+                _start = true;
+                _AudioBGMusic.Play();
+            }
         }
         else
         {
@@ -133,6 +158,7 @@ public class Manager : MonoBehaviour
             {
                 _pause = true;
                 pauseButton = Instantiate(_pauseButton, Vector3.zero, Quaternion.identity);
+                grayScreen = Instantiate(_grayScreen, Vector3.zero, Quaternion.identity);
             }
             else if (gameStatus == "Pause" && _pause)
             {
@@ -145,8 +171,19 @@ public class Manager : MonoBehaviour
                         SaveData();
                         _pause = false;
                         Destroy(pauseButton);
+                        Destroy(grayScreen);
                         _AudioBGMusic.UnPause();
                     }
+                }
+                if (!_gameData._swipeControl.Equals("None"))
+                {
+                    Time.timeScale = 1;
+                    _gameData._gameStatus = "Playing";
+                    SaveData();
+                    _pause = false;
+                    Destroy(pauseButton);
+                    Destroy(grayScreen);
+                    _AudioBGMusic.UnPause();
                 }
             }
             else if (gameStatus == "End" && !_restart)
@@ -159,13 +196,14 @@ public class Manager : MonoBehaviour
                 else
                 {
                     GameObject restartButton = Instantiate(_restartButton, Vector3.zero, Quaternion.identity);
+                    grayScreen = Instantiate(_grayScreen, Vector3.zero, Quaternion.identity);
                     _restart = true;
                 }
 
             }
             else if (gameStatus == "End" && _restart)
             {
-                if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetMouseButtonDown(0))
+                if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
                 {
                     _gameData._gameStatus = "Pause";
                     SaveData();

@@ -12,32 +12,12 @@ public class Menu : MonoBehaviour
 {
     private GameData _gameData;
 
-    //public Button _Tutorial;
-    //public Button _Easy;
-    //public Button _Medium;
-    //public Button _Hard;
-    //public Button _Nightmare;
-    //public Button _Exit;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Button TutorialButton = _Easy.GetComponent<Button>();
-        //Button EasyButton = _Easy.GetComponent<Button>();
-        //Button MediumButton = _Easy.GetComponent<Button>();
-        //Button HardButton = _Easy.GetComponent<Button>();
-        //Button NightmareButton = _Easy.GetComponent<Button>();
-        //Button ExitButton = _Easy.GetComponent<Button>();
-
-        //TutorialButton.onClick.AddListener(Tutorial);
-        //EasyButton.onClick.AddListener(Easy);
-        //MediumButton.onClick.AddListener(Medium);
-        //HardButton.onClick.AddListener(Hard);
-        //NightmareButton.onClick.AddListener(Nightmare);
-        //ExitButton.onClick.AddListener(Exit);
-
+        
         Time.timeScale = 0;
-
 
     }
 
@@ -76,7 +56,7 @@ public class Menu : MonoBehaviour
         ReadData();
         _gameData._level = level;
         SaveData();
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Loading");
         
     }
 

@@ -1,5 +1,7 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Honk : MonoBehaviour
@@ -15,6 +17,8 @@ public class Honk : MonoBehaviour
     List<AudioSource> AudioList;
 
     private int _cooldown;
+
+    private GameData _gameData;
 
     // Start is called before the first frame update
     void Start()
@@ -36,23 +40,52 @@ public class Honk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+        ReadData();
+        if (Time.timeScale > 0)
         {
-            _anim.SetBool("honk", true);
-            int random = Random.Range(0, AudioList.Count);
-            _honk = AudioList[random];
-            _honk.Play();
-            _cooldown = 30;
-        }
-        if (_cooldown > 0)
-        {
-            _cooldown--;
-        } 
-        else
-        {
-            _anim.SetBool("honk", false);
-            
+            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl) || _gameData._touchHonk)
+            {
+                _anim.SetBool("honk", false);
+                _anim.SetBool("honk", true);
+                int random = Random.Range(0, AudioList.Count);
+                _honk = AudioList[random];
+                _honk.Play();
+                _cooldown = 30;
+            }
+            if (_cooldown > 0)
+            {
+                _cooldown--;
+            }
+            else
+            {
+                _anim.SetBool("honk", false);
+
+            }
         }
         
+        
+    }
+
+    private void ReadData()
+    {
+        string jsonRead;
+        try
+        {
+            jsonRead = System.IO.File.ReadAllText("data.txt");
+            _gameData = JsonUtility.FromJson<GameData>(jsonRead);
+        }
+        catch (FileNotFoundException)
+        {
+            _gameData = new GameData();
+            string json = JsonUtility.ToJson(_gameData);
+            System.IO.File.WriteAllText("data.txt", json);
+        }
+    }
+
+    private void SaveData()
+    {
+        string json = JsonUtility.ToJson(_gameData);
+        //Debug.Log(json);
+        System.IO.File.WriteAllText("data.txt", json);
     }
 }

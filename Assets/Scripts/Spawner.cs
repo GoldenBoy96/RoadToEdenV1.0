@@ -35,6 +35,9 @@ public class Spawner : MonoBehaviour
     private int _FlyingStoneCooldown;
     private List<GameObject> FlyingStoneList = new List<GameObject>();
 
+    public GameObject _WingedLight;
+    private int _WingedLightCooldown;
+
 
     public GameObject ground;
     public GameObject horn;
@@ -48,6 +51,7 @@ public class Spawner : MonoBehaviour
         RedstoneLevel();
         KrillLevel();
         FlyingStoneLevel();
+        WingedLightLevel();
 
         if (_gameData._level.Equals("Nightmare"))
         {
@@ -123,7 +127,7 @@ public class Spawner : MonoBehaviour
             {
                 SpawnKrill();
                 SpawnFlyingStone();
-
+                SpawnWingedLight();
             }
 
         }
@@ -181,12 +185,6 @@ public class Spawner : MonoBehaviour
             _FlyingStoneCooldown--;
         }
 
-
-
-
-
-        //Debug.Log("Test spawner");
-
     }
 
     [System.Obsolete]
@@ -226,7 +224,6 @@ public class Spawner : MonoBehaviour
             _KrillCooldown--;
         }
 
-
     }
 
     [System.Obsolete]
@@ -241,6 +238,37 @@ public class Spawner : MonoBehaviour
             _ => Random.RandomRange(700, 1500),
         };
     }
+
+    [System.Obsolete]
+    private void SpawnWingedLight()
+    {
+        if (_WingedLightCooldown <= 0)
+        {
+            GameObject wingedLight = Instantiate(_WingedLight, transform.position, Quaternion.identity);
+            wingedLight.transform.position = new Vector3(30, -3.2f);
+            WingedLightLevel();
+
+        }
+        else
+        {
+            _WingedLightCooldown--;
+        }
+
+    }
+
+    [System.Obsolete]
+    private void WingedLightLevel()
+    {
+        _WingedLightCooldown = _gameData._level switch
+        {
+            "Easy" => Random.RandomRange(500, 2000),
+            "Medium" => Random.RandomRange(500, 3000),
+            "Hard" => Random.RandomRange(500, 4000),
+            _ => Random.RandomRange(500, 2000),
+        };
+    }
+
+
 
     private void SpawnGround()
     {
