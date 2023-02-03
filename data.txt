@@ -1,1 +1,1 @@
-{"_speed":5.0,"_isRunning":false,"_score":89,"_highestScore":38011,"_spawnRedstone":false,"_spawnGround":false,"_spawnHorn":false,"_gameStatus":"Playing","_energy":502.5,"_bgm":7,"_level":"Tutorial","_swipeControl":"None","_touchHonk":false}
+{"_speed":5.0,"_isRunning":false,"_score":708,"_highestScore":38011,"_spawnRedstone":true,"_spawnGround":false,"_spawnHorn":true,"_gameStatus":"Pause","_energy":500.0,"_bgm":9,"_level":"Tutorial","_swipeControl":"None","_touchHonk":false}

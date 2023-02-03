@@ -3762,8 +3762,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1114602616}
   - component: {fileID: 1114602615}
-  - component: {fileID: 1114602613}
   - component: {fileID: 1114602617}
+  - component: {fileID: 1114602618}
   m_Layer: 0
   m_Name: tutorial_mobile
   m_TagString: Untagged
@@ -3771,18 +3771,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1114602613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1114602612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff5ac19942a2bd44ab356ee1e1feb4eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &1114602615
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3860,6 +3848,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8c67f4a990b60146bc186afec245caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1114602618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114602612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af8f1b773f24cd8409d3cc678cbf5c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1129153750
@@ -4309,18 +4309,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff5ac19942a2bd44ab356ee1e1feb4eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1326602853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326602848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af8f1b773f24cd8409d3cc678cbf5c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1666161662

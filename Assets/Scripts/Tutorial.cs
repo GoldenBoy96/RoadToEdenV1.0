@@ -16,6 +16,10 @@ public class Tutorial : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (SystemInfo.deviceType != DeviceType.Desktop)
+        {
+            Destroy(gameObject);
+        }
     }
 
 
